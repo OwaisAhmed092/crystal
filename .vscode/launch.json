@@ -1,0 +1,68 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Gateway",
+            "runtimeExecutable": "npm",
+            "program": "${workspaceFolder}/app/gateway/src/main.ts",
+            "runtimeArgs": [
+                "run",
+                "start:gateway",
+                "--",
+                "--inspect-brk"
+            ],
+            "autoAttachChildProcesses": true,
+            "restart": true,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "console": "integratedTerminal",
+            "outFiles": [
+                "${workspaceFolder}/app/gateway/src/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Auth",
+            "runtimeExecutable": "npm",
+            "program": "${workspaceFolder}/app/auth/src/main.ts",
+            "runtimeArgs": [
+                "run",
+                "start:auth",
+                "--",
+                "--inspect-brk"
+            ],
+            "autoAttachChildProcesses": true,
+            "restart": true,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "console": "integratedTerminal",
+            "outFiles": [
+                "${workspaceFolder}/app/auth/src/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Account",
+            "runtimeExecutable": "npm",
+            "program": "${workspaceFolder}/app/account/src/main.ts",
+            "runtimeArgs": [
+                "run",
+                "start:account",
+                "--",
+                "--inspect-brk"
+            ],
+            "autoAttachChildProcesses": true,
+            "restart": true,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "console": "integratedTerminal",
+            "outFiles": [
+                "${workspaceFolder}/app/account/src/**/*.js"
+            ]
+        }
+    ]
+}
