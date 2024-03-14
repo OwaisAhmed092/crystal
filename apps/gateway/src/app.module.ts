@@ -11,7 +11,7 @@ import { AccountController, AuthController, ProfileController } from './controll
         name: SERVICE.AUTH,
         transport: Transport.TCP,
         options: {
-          host: process.env.SERVER_HOST,
+          host: process.env.AUTH_HOST,
           port: parseInt(process.env.AUTH_PORT),
         },
       },
@@ -19,7 +19,7 @@ import { AccountController, AuthController, ProfileController } from './controll
         name: SERVICE.ACCOUNT,
         transport: Transport.TCP,
         options: {
-          host: process.env.SERVER_HOST,
+          host: process.env.ACCOUNT_HOST,
           port: parseInt(process.env.ACCOUNT_PORT),
         },
       },

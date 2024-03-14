@@ -1,0 +1,31 @@
+# Specify the name of the database secret for each environment
+secrets:
+  local: local-db-secret
+  staging: staging-db-secret
+  production: production-db-secret
+
+# Specify the environment (local, staging, production)
+environment: local # Default to local environment
+
+# Define APPs name
+app:
+  gateway: gateway
+  auth: auth
+  account: account
+
+# Define APPs service
+service:
+  gateway: gateway-service
+  auth: auth-service
+  account: account-service
+
+# Define PORTs of services
+port:
+  gateway: 3000
+  auth: 3001
+  account: 3002
+
+# Define HOSTs of services
+host:
+  auth: auth-service.default.svc.cluster.local
+  account: account-service.default.svc.cluster.local

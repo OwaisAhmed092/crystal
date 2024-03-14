@@ -12,11 +12,13 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        host: process.env.SERVER_HOST,
+        host: process.env.AUTH_HOST,
         port: parseInt(process.env.AUTH_PORT),
       },
     },
   );
+  console.log("AUTH_HOST", process.env.AUTH_HOST)
+  console.log("AUTH_PORT", process.env.AUTH_PORT)
   app.listen();
 }
 

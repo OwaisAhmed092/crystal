@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.gateway }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.app.gateway }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.gateway }}
+    spec:
+      containers:
+        - name: crystal-gateway
+          image: crystal-gateway:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          # {{- if .Files.Get "templates/app-secret.yaml" }}
+          # envFrom:
+          #   - secretRef:
+          #       name: app-secret
+          # {{- end }}
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: AUTH_HOST 
+              value: auth-service.default.svc.cluster.local
+            - name: ACCOUNT_HOST 
+              value: account-service.default.svc.cluster.local

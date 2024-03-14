@@ -10,11 +10,13 @@ const serviceAccount = require('../../../serviceAccountKey.json');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpErrorFilter());
   app.setGlobalPrefix('api');
 
-  await app.listen(process.env.ROOT_PORT);
+  await app.listen(process.env.GATEWAY_PORT);
+
+  console.log("GATEWAY_URL", await app.getUrl())
 }
 
 admin.initializeApp({

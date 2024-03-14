@@ -1,0 +1,64 @@
+services:
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+      target: production
+    command: node dist/apps/gateway/main
+    depends_on:
+      - auth
+      - account
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=host.docker.internal
+      - AUTH_HOST=auth
+      - ACCOUNT_HOST=account
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal_network
+    ports:
+      - '3000:3000'
+
+  auth:
+    container_name: auth
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: production
+    command: node dist/apps/auth/main
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=host.docker.internal
+      - AUTH_HOST=0.0.0.0
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal_network
+
+  account:
+    container_name: account
+    build:
+      context: .
+      dockerfile: ./apps/account/Dockerfile
+      target: production
+    command: node dist/apps/account/main
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=host.docker.internal
+      - ACCOUNT_HOST=0.0.0.0
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - internal_network
+
+networks:
+  internal_network:
+    driver: bridge

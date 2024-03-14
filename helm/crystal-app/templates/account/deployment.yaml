@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.account }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.app.account }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.account }}
+    spec:
+      containers:
+        - name: crystal-account
+          image: crystal-account:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: {{ .Values.port.account }}
+          # {{- if .Files.Get (printf "templates/%s.yaml" (index .Values.secrets .Values.environment)) }}
+          # envFrom:
+          #   - secretRef:
+          #       name: {{ index .Values.secrets .Values.environment }}
+          # {{- end }}
+          # {{- if .Files.Get "templates/app-secret.yaml" }}
+          # envFrom:
+          #   - secretRef:
+          #       name: app-secret
+          # {{- end }}
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: ACCOUNT_HOST 
+              value: 0.0.0.0

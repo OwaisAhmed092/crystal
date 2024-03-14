@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.auth }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.app.auth }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.auth }}
+    spec:
+      containers:
+        - name: crystal-auth
+          image: crystal-auth:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3001
+          # {{- if .Files.Get (printf "templates/%s.yaml" (index .Values.secrets .Values.environment)) }}
+          # envFrom:
+          #   - secretRef:
+          #       name: {{ index .Values.secrets .Values.environment }}
+          # {{- end }}
+          # {{- if .Files.Get "templates/app-secret.yaml" }}
+          # envFrom:
+          #   - secretRef:
+          #       name: app-secret
+          # {{- end }}
+          envFrom:
+            - configMapRef:
+                name: app-config
+          env:
+            - name: AUTH_HOST 
+              value: 0.0.0.0
+          dnsPolicy: "Default"  # Use the cluster's DNS settings
+          dnsConfig:
+          nameservers:
+            - 8.8.8.8         # Use Google's DNS server
+          searches:
+            - default.svc.cluster.local
+            - svc.cluster.local
+            - cluster.local

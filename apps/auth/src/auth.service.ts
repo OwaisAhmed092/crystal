@@ -11,6 +11,7 @@ export class AuthService {
 
   async register(email: string, password: string): Promise<string> {
     try {
+      console.log("register", email, password)
       const userRecord = await admin.auth().createUser({
         email,
         password
@@ -23,6 +24,7 @@ export class AuthService {
 
       return userRecord.uid;
     } catch (error) {
+      console.log("errorRegister", error)
       if (error.code === 'auth/email-already-exists') {
         throw new RpcException({ status: HttpStatus.BAD_REQUEST, message: 'User already registered by this email.' });
       }
@@ -33,6 +35,9 @@ export class AuthService {
   async login(email: string, password: string): Promise<any> {
 
     try {
+
+      console.log("login", email, password)
+      console.log("login", process.env.FIREBASE_API_KEY)
       const response = await lastValueFrom(
         this.httpService.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`, {
           email,
@@ -44,6 +49,7 @@ export class AuthService {
       return response.data;
 
     } catch (error) {
+      console.log("errorLogin", error)
       throw new RpcException({ status: HttpStatus.UNAUTHORIZED, message: 'Unauthorized' });
     }
   }
